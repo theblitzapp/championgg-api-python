@@ -4,19 +4,19 @@ except ImportError:
     from distutils.core import setup
 
 requires = ["requests"]
-packages = ["pygg"]
+packages = ["py_gg"]
 version = "1.0.0"
 
 setup(
-    name='pygg',
+    name='py_gg',
     version=version,
     description='A Python wrapper for the Champion.gg API',
     long_description='This is a python wrapper for interacting with the Champion.gg API. You will need an API key, that you can get at api.champion.gg',
     author='Philip Fugate',
     author_email='phil.fugate@gmail.com',
-    url='api.champion.gg',
+    url='https://github.com/solomidnet/championgg-api-python',
     packages=packages,
-    package_dir={'pygg': 'pygg'},
+    package_dir={'py_gg': 'py_gg'},
     include_package_data=True,
     install_requires=requires,
     license='Apache 2.0',

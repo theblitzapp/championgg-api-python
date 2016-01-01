@@ -1,0 +1,2 @@
+class InvalidAPIKeyError(Exception):
+    pass

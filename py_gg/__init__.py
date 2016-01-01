@@ -4,14 +4,14 @@ A Python lib for the champion.gg API
 
 Usage:
 
-    import pygg
+    import py_gg
 
-    pygg.init(API_KEY)
-    champs = pygg.champion.all()
+    py_gg.init(API_KEY)
+    champs = py_gg.champion.all()
 
 """
 
-__title__ = "pygg"
+__title__ = "py_gg"
 __version__ = '1.0.0'
 __author__ = "Philip Fugate"
 __copyright__ = "Copyright 2016 Solomid Corp"
