@@ -19,12 +19,13 @@ __copyright__ = "Copyright 2016 Solomid Corp"
 
 api_key = ""
 url = "http://api.champion.gg"
-champion = {}
-stats = {}
+#champion = {}
+#stats = {}
 
 import requests
 from .utils import InvalidAPIKeyError
-
+from .champions import Champions
+from .stats import Stats
 
 def init(key):
     global api_key, champion, url, stats
@@ -32,7 +33,5 @@ def init(key):
     check = requests.get(url+"/ping?api_key="+api_key)
     if check.status_code == 403:
         raise InvalidAPIKeyError("Invalid API Key")
-    import champions as c
-    import stats as s
-    champion = c.Champions(api_key, url)
-    stats = s.Stats(api_key, url)
+    champion = Champions(api_key, url)
+    stats = Stats(api_key, url)
