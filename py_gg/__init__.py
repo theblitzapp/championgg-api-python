@@ -19,8 +19,8 @@ __copyright__ = "Copyright 2016 Solomid Corp"
 
 api_key = ""
 url = "http://api.champion.gg"
-#champion = {}
-#stats = {}
+champion = {}
+stats = {}
 
 import requests
 from .utils import InvalidAPIKeyError
