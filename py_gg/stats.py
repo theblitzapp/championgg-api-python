@@ -28,7 +28,6 @@ class Stats:
                 r = requests.get(self.url+"/stats/role/"+role+"/bestPerformance", params=params)
             else:
                 r = requests.get(self.url+"/stats/role/"+role+"/worstPerformance", params=params)
-        print r.text
         return r.json()
 
     def champion(self, name):
