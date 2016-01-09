@@ -38,3 +38,4 @@ Feel free to contribute, let's just try to keep it readable :)
 
 ## Release History
   * 1.0.0 Initial release
+  * 1.0.1 Fixes to calls to Champions and Stats
