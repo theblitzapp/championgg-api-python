@@ -5,7 +5,7 @@ except ImportError:
 
 requires = ["requests"]
 packages = ["py_gg"]
-version = "2.0.0"
+version = "2.0.1"
 
 setup(
     name='py_gg',
