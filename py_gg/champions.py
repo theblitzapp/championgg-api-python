@@ -1,5 +1,6 @@
 import requests
-
+import urllib
+from .utils import InvalidChampionIdError, InvalidRoleError
 
 class Champions:
     def __init__(self, key, url):
@@ -7,52 +8,34 @@ class Champions:
         self.url = url
         self.alldata = ""
 
-    def all(self):
+    def all(self, options):
         if self.alldata == "":
-            r = requests.get(self.url+"/champion?api_key="+self.key)
+            r = requests.get("%s/champions?api_key=%s&%s" % (self.url, self.key, urllib.urlencode(options)))
             self.alldata = r.json()
         return self.alldata
 
-    def specific(self, name):
-        r = requests.get(self.url+"/champion/"+name+"?api_key="+self.key)
+    def specific(self, id, options):
+        if not id or type(id) is not 'integer':
+            raise InvalidChampionIdError("Champion Id must be present and an integer.")
+        r = requests.get("%s/champions/%d?api_key=%s&%s" % (self.url, id, self.key, urllib.urlencode(options)))
         return r.json()
 
-    def general(self, name):
-        r = requests.get(self.url+"/champion/"+name+"/general?api_key="+self.key)
+    def specificRole(self, id, role, options):
+        if not id or type(id) is not 'integer':
+            raise InvalidChampionIdError("Champion Id must be present and an integer.")
+        if role not in ['TOP', 'JUNGLE', 'MIDDLE', 'DUO_CARRY', 'DUO_SUPPORT']:
+            raise InvalidRoleError("Role must be present and either be TOP, JUNGLE, MIDDLE, DUO_CARRY, or DUO_SUPPORT.")
+        r = requests.get("%s/champions/%d/%s?api_key=%s&%s" % (self.url, id, role, self.key, urllib.urlencode(options)))
         return r.json()
 
-    def skills(self, name, order=""):
-        if order == "popular":
-            r = requests.get(self.url+"/champion/"+name+"/skills/mostPopular?api_key="+self.key)
-        elif order == "winning":
-            r = requests.get(self.url+"/champion/"+name+"/skills/mostWins?api_key="+self.key)
-        else:
-            r = requests.get(self.url+"/champion/"+name+"/skills?api_key="+self.key)
+    def specificMatchup(self, champ1, champ2, role, options):
+        if not champ1 or type(champ1) is not 'integer':
+            raise InvalidChampionIdError("Champion Id must be present and an integer.")
+        if not champ2 or type(champ2) is not 'integer':
+            raise InvalidChampionIdError("Champion Id must be present and an integer.")
+        if role not in ['TOP', 'JUNGLE', 'MIDDLE', 'DUO_CARRY', 'DUO_SUPPORT']:
+            raise InvalidRoleError("Role must be present and either be TOP, JUNGLE, MIDDLE, DUO_CARRY, or DUO_SUPPORT.")
+        r = requests.get("%s/champions/%d/matchups/%d/%s?api_key=%s&%s" %
+                         (self.url, champ1, champ2, role, self.key, urllib.urlencode(options)))
         return r.json()
 
-    def items(self, name, starting=True, order="popular"):
-        if starting:
-            if order == "popular":
-                r = requests.get(self.url+"/champion/"+name+"/items/starters/mostPopular?api_key="+self.key)
-            else:
-                r = requests.get(self.url+"/champion/"+name+"/items/starters/mostWins?api_key="+self.key)
-        else:
-            if order == "popular":
-                r = requests.get(self.url+"/champion/"+name+"/items/finished/mostPopular?api_key="+self.key)
-            else:
-                r = requests.get(self.url+"/champion/"+name+"/items/finished/mostWins?api_key="+self.key)
-        return r.json()
-
-    def runes(self, name, order="popular"):
-        if order == "popular":
-            r = requests.get(self.url+"/champion/"+name+"/runes/mostPopular?api_key="+self.key)
-        else:
-            r = requests.get(self.url+"/champion/"+name+"/runes/mostWins?api_key="+self.key)
-        return r.json()
-
-    def matchup(self, name, enemy=""):
-        if enemy == "":
-            r = requests.get(self.url+"/champion/"+name+"/matchup?api_key="+self.key)
-        else:
-            r = requests.get(self.url+"/champion/"+name+"/matchup/"+enemy+"?api_key="+self.key)
-        return r.json()
