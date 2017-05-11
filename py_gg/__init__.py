@@ -17,22 +17,22 @@ __author__ = "Philip Fugate"
 __copyright__ = "Copyright 2017 Solomid Corp"
 
 
-api_key = ""
-url = "http://api.champion.gg/v2"
+_api_key = ""
+_url = "http://api.champion.gg/v2"
 champions = {}
 statistics = {}
 
-import requests
-from .utils import InvalidAPIKeyError
-from .champions import Champions
-from .stats import Stats
+import requests as _requests
+from .utils import InvalidAPIKeyError as _InvalidAPIKeyError
+from .champions import Champions as _Champions
+from .stats import Stats as _Stats
 
 
 def init(key):
-    global api_key, champions, url, statistics
-    api_key = key
-    check = requests.get(url+"/ping?api_key="+api_key)
+    global _api_key, champions, _url, statistics
+    _api_key = key
+    check = _requests.get(_url+"/ping?api_key="+_api_key)
     if check.status_code == 403:
-        raise InvalidAPIKeyError("Invalid API Key")
-    champions = Champions(api_key, url)
-    statistics = Stats(api_key, url)
+        raise _InvalidAPIKeyError("Invalid API Key")
+    champions = _Champions(_api_key, _url)
+    statistics = _Stats(_api_key, _url)

@@ -10,24 +10,24 @@ except AttributeError:  # They moved this function in Python 3
 
 class Champions(object):
     def __init__(self, key, url):
-        self.key = key
-        self.url = url
-        self.alldata = ""
+        self.__key = key
+        self.__url = url
+        self.__alldata = ""
 
     def all(self, options=None):
         if options is None:
             options = {}
-        if self.alldata == "":
-            r = requests.get("%s/champions?api_key=%s&%s" % (self.url, self.key, urlencode(options)))
-            self.alldata = r.json()
-        return self.alldata
+        if self.__alldata == "":
+            r = requests.get("%s/champions?api_key=%s&%s" % (self.__url, self.__key, urlencode(options)))
+            self.__alldata = r.json()
+        return self.__alldata
 
     def specific(self, id, options=None):
         if options is None:
             options = {}
         if not isinstance(id, int):
             raise InvalidChampionIdError("Champion Id must be present and an integer.")
-        r = requests.get("%s/champions/%d?api_key=%s&%s" % (self.url, id, self.key, urlencode(options)))
+        r = requests.get("%s/champions/%d?api_key=%s&%s" % (self.__url, id, self.__key, urlencode(options)))
         return r.json()
 
     def specific_role(self, id, role, options=None):
@@ -37,7 +37,7 @@ class Champions(object):
             raise InvalidChampionIdError("Champion Id must be present and an integer.")
         if role not in ['TOP', 'JUNGLE', 'MIDDLE', 'DUO_CARRY', 'DUO_SUPPORT']:
             raise InvalidRoleError("Role must be present and either be TOP, JUNGLE, MIDDLE, DUO_CARRY, or DUO_SUPPORT.")
-        r = requests.get("%s/champions/%d/%s?api_key=%s&%s" % (self.url, id, role, self.key, urlencode(options)))
+        r = requests.get("%s/champions/%d/%s?api_key=%s&%s" % (self.__url, id, role, self.__key, urlencode(options)))
         try:
             return r.json()[0]
         except IndexError:
@@ -53,5 +53,5 @@ class Champions(object):
         if role not in ['TOP', 'JUNGLE', 'MIDDLE', 'DUO_CARRY', 'DUO_SUPPORT']:
             raise InvalidRoleError("Role must be present and either be TOP, JUNGLE, MIDDLE, DUO_CARRY, or DUO_SUPPORT.")
         r = requests.get("%s/champions/%d/matchups/%d/%s?api_key=%s&%s" %
-                         (self.url, champ1, champ2, role, self.key, urlencode(options)))
+                         (self.__url, champ1, champ2, role, self.__key, urlencode(options)))
         return r.json()
