@@ -27,6 +27,7 @@ from .utils import InvalidAPIKeyError
 from .champions import Champions
 from .stats import Stats
 
+
 def init(key):
     global api_key, champions, url, statistics
     api_key = key
@@ -35,4 +36,3 @@ def init(key):
         raise InvalidAPIKeyError("Invalid API Key")
     champions = Champions(api_key, url)
     statistics = Stats(api_key, url)
-

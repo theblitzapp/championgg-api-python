@@ -2,40 +2,56 @@ import requests
 import urllib
 from .utils import InvalidChampionIdError, InvalidRoleError
 
-class Champions:
+try:
+    urlencode = urllib.urlencode
+except AttributeError:  # They moved this function in Python 3
+    urlencode = urllib.parse.urlencode
+
+
+class Champions(object):
     def __init__(self, key, url):
         self.key = key
         self.url = url
         self.alldata = ""
 
-    def all(self, options):
+    def all(self, options=None):
+        if options is None:
+            options = {}
         if self.alldata == "":
-            r = requests.get("%s/champions?api_key=%s&%s" % (self.url, self.key, urllib.urlencode(options)))
+            r = requests.get("%s/champions?api_key=%s&%s" % (self.url, self.key, urlencode(options)))
             self.alldata = r.json()
         return self.alldata
 
-    def specific(self, id, options):
-        if not id or type(id) is not 'integer':
+    def specific(self, id, options=None):
+        if options is None:
+            options = {}
+        if not isinstance(id, int):
             raise InvalidChampionIdError("Champion Id must be present and an integer.")
-        r = requests.get("%s/champions/%d?api_key=%s&%s" % (self.url, id, self.key, urllib.urlencode(options)))
+        r = requests.get("%s/champions/%d?api_key=%s&%s" % (self.url, id, self.key, urlencode(options)))
         return r.json()
 
-    def specificRole(self, id, role, options):
-        if not id or type(id) is not 'integer':
+    def specific_role(self, id, role, options=None):
+        if options is None:
+            options = {}
+        if not isinstance(id, int):
             raise InvalidChampionIdError("Champion Id must be present and an integer.")
         if role not in ['TOP', 'JUNGLE', 'MIDDLE', 'DUO_CARRY', 'DUO_SUPPORT']:
             raise InvalidRoleError("Role must be present and either be TOP, JUNGLE, MIDDLE, DUO_CARRY, or DUO_SUPPORT.")
-        r = requests.get("%s/champions/%d/%s?api_key=%s&%s" % (self.url, id, role, self.key, urllib.urlencode(options)))
-        return r.json()
+        r = requests.get("%s/champions/%d/%s?api_key=%s&%s" % (self.url, id, role, self.key, urlencode(options)))
+        try:
+            return r.json()[0]
+        except IndexError:
+            return None
 
-    def specificMatchup(self, champ1, champ2, role, options):
-        if not champ1 or type(champ1) is not 'integer':
+    def specific_matchup(self, champ1, champ2, role, options=None):
+        if options is None:
+            options = {}
+        if not isinstance(champ1, int):
             raise InvalidChampionIdError("Champion Id must be present and an integer.")
-        if not champ2 or type(champ2) is not 'integer':
+        if not isinstance(champ2, int):
             raise InvalidChampionIdError("Champion Id must be present and an integer.")
         if role not in ['TOP', 'JUNGLE', 'MIDDLE', 'DUO_CARRY', 'DUO_SUPPORT']:
             raise InvalidRoleError("Role must be present and either be TOP, JUNGLE, MIDDLE, DUO_CARRY, or DUO_SUPPORT.")
         r = requests.get("%s/champions/%d/matchups/%d/%s?api_key=%s&%s" %
-                         (self.url, champ1, champ2, role, self.key, urllib.urlencode(options)))
+                         (self.url, champ1, champ2, role, self.key, urlencode(options)))
         return r.json()
-
