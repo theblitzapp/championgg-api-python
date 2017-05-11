@@ -1,6 +1,6 @@
 import requests
 import urllib
-from .utils import InvalidChampionIdError, InvalidRoleError
+from .utils import InvalidChampionIdError as _InvalidChampionIdError, InvalidRoleError as _InvalidRoleError
 
 try:
     urlencode = urllib.urlencode
@@ -26,7 +26,7 @@ class Champions(object):
         if options is None:
             options = {}
         if not isinstance(id, int):
-            raise InvalidChampionIdError("Champion Id must be present and an integer.")
+            raise _InvalidChampionIdError("Champion Id must be present and an integer.")
         r = requests.get("%s/champions/%d?api_key=%s&%s" % (self.__url, id, self.__key, urlencode(options)))
         return r.json()
 
@@ -34,9 +34,9 @@ class Champions(object):
         if options is None:
             options = {}
         if not isinstance(id, int):
-            raise InvalidChampionIdError("Champion Id must be present and an integer.")
+            raise _InvalidChampionIdError("Champion Id must be present and an integer.")
         if role not in ['TOP', 'JUNGLE', 'MIDDLE', 'DUO_CARRY', 'DUO_SUPPORT']:
-            raise InvalidRoleError("Role must be present and either be TOP, JUNGLE, MIDDLE, DUO_CARRY, or DUO_SUPPORT.")
+            raise _InvalidRoleError("Role must be present and either be TOP, JUNGLE, MIDDLE, DUO_CARRY, or DUO_SUPPORT.")
         r = requests.get("%s/champions/%d/%s?api_key=%s&%s" % (self.__url, id, role, self.__key, urlencode(options)))
         try:
             return r.json()[0]
@@ -47,11 +47,11 @@ class Champions(object):
         if options is None:
             options = {}
         if not isinstance(champ1, int):
-            raise InvalidChampionIdError("Champion Id must be present and an integer.")
+            raise _InvalidChampionIdError("Champion Id must be present and an integer.")
         if not isinstance(champ2, int):
-            raise InvalidChampionIdError("Champion Id must be present and an integer.")
+            raise _InvalidChampionIdError("Champion Id must be present and an integer.")
         if role not in ['TOP', 'JUNGLE', 'MIDDLE', 'DUO_CARRY', 'DUO_SUPPORT']:
-            raise InvalidRoleError("Role must be present and either be TOP, JUNGLE, MIDDLE, DUO_CARRY, or DUO_SUPPORT.")
+            raise _InvalidRoleError("Role must be present and either be TOP, JUNGLE, MIDDLE, DUO_CARRY, or DUO_SUPPORT.")
         r = requests.get("%s/champions/%d/matchups/%d/%s?api_key=%s&%s" %
                          (self.__url, champ1, champ2, role, self.__key, urlencode(options)))
         return r.json()
