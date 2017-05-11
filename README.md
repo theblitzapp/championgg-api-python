@@ -24,8 +24,8 @@ Method | Parameters |
 `.statistics.general` | `options` |
 `.champions.all` | `options` |
 `.champions.specific`| `champId`, `options` |
-`.champions.specificRole`| `champId`, `role`, `options` |
-`.champions.specificMatchup`| `champ1Id`, `champ2Id`, `role`, `options` |
+`.champions.specific_role`| `champId`, `role`, `options` |
+`.champions.specific_matchup`| `champ1Id`, `champ2Id`, `role`, `options` |
 
 
 ## contributing
