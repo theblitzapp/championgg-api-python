@@ -35,3 +35,5 @@ Feel free to contribute, let's just try to keep it readable :)
   * 1.0.0 Initial release
   * 1.0.1 Fixes to calls to Champions and Stats
   * 2.0.0 Release for v2 of the API
+  * 2.0.1 Fixes to pypi
+  * 2.0.2 QOL Changes, privitizing methods
