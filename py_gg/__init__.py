@@ -12,7 +12,7 @@ Usage:
 """
 
 __title__ = "py_gg"
-__version__ = '2.0.1'
+__version__ = '2.0.2'
 __author__ = "Philip Fugate"
 __copyright__ = "Copyright 2017 Solomid Corp"
 
